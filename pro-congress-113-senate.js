@@ -4855,46 +4855,34 @@ var data =
 
  // Punto 5
 
- var str = JSON.stringify(data, null, 2);
- var valor = JSON.parse(str)
+var str = JSON.stringify(data, null, 2);
+var valor = JSON.parse(str)
 var pro = document.getElementById("senate-data")
 var tbody= document.createElement("tbody")
 // pro.appendChild(tbody)
 var tabla="<thead class='thead-dark'><tr><th class='text-center'>Full Name</th><th>Party</th><th>State</th><th>Senority</th><th>Percentage of votes</th></tr></thead>"
-var arreglo = valor.results[0].members
-agregarVotantes(arreglo)
-function agregarVotantes(arreglo){
- for (let i=0;i<arreglo.length;i++)
 
-{
+var arreglo = valor.results[0].members;
 
-tabla +="<tr>" // Agrega una fila por cada vuelta
 
-//console.log(array[i].last_name+array[i].first_name+array[i].middle_name)
+armarTablaMiembros(arreglo)
 
-if(arreglo[i].last_name!=null && arreglo[i].first_name!=null && arreglo[i].middle_name!=null)
+function armarTablaMiembros(miembros){ // Esta es la funcion de hacer la tabla
+ for (let i=0;i<miembros.length;i++){
 
-{
-
-tabla+="<td><a href='"+arreglo[i].url+"'>"+arreglo[i].last_name+" "+arreglo[i].first_name+" "+arreglo[i].middle_name+"</a></td>" // el href ese es para agregarle link al nombre del tipo
-
+     tabla +="<tr>" // Agrega una fila por cada vuelta
+      //console.log(array[i].last_name+array[i].first_name+array[i].middle_name)
+       if(miembros[i].last_name!=null && miembros[i].first_name!=null && miembros[i].middle_name!=null){
+    tabla+="<td><a href='"+miembros[i].url+"'>"+miembros[i].last_name+" "+miembros[i].first_name+" "+miembros[i].middle_name+"</a></td>" // el href ese es para agregarle link al nombre del tipo
+}
+   else if(miembros[i].middle_name==null) {
+  tabla+="<td><a href='"+miembros[i].url+"'>"+miembros[i].last_name+" "+miembros[i].first_name+"</a></td>"
 }
 
-else if(arreglo[i].middle_name==null)
-
-{
-
-tabla+="<td><a href='"+arreglo[i].url+"'>"+arreglo[i].last_name+" "+arreglo[i].first_name+"</a></td>"
-
-}
-
-tabla+="<td>"+" "+arreglo[i].party+" "+"</td>"
-
-tabla+="<td>"+" "+arreglo[i].state+" "+"</td>"
-
-tabla+="<td>"+" "+arreglo[i].seniority+" "+"</td>"
-
-tabla+="<td>"+" "+arreglo[i].votes_with_party_pct+"%"+" "+"</td></tr>"
+    tabla+="<td>"+" "+miembros[i].party+" "+"</td>"
+    tabla+="<td>"+" "+miembros[i].state+" "+"</td>"
+    tabla+="<td>"+" "+miembros[i].seniority+" "+"</td>"
+    tabla+="<td>"+" "+miembros[i].votes_with_party_pct+"%"+" "+"</td></tr>"
 }
 
 }
@@ -4905,108 +4893,68 @@ tabla+="<td>"+" "+arreglo[i].votes_with_party_pct+"%"+" "+"</td></tr>"
 
 pro.innerHTML=tabla
 
+//Filtro del checkbox
 
-//ACORDION
-
-var acc = document.getElementsByClassName("accordion");
-var i;
-
-for (i = 0; i < acc.length; i++) {
-  acc[i].addEventListener("click", function() {
-    /* Toggle between adding and removing the "active" class,
-    to highlight the button that controls the panel */
-    this.classList.toggle("active");
-
-    /* Toggle between hiding and showing the active panel */
-    var panel = this.nextElementSibling;
-    if (panel.style.display === "block") {
-      panel.style.display = "none";
-    } else {
-      panel.style.display = "block";
-    }
-  });
+ let arrayAux=[]; // SI COMENTO ESTO ME TIRA Uncaught ReferenceError: arrayAux is not defined
+ // SI NO LO COMENTO ME TIRA AL FINAL ARRAY VACIO PORQUE ACA ESTA VACIO
 
 
+function filtrarTablaCheckbox () {
+  let arrayAux=[];
+  let checkboxDemocrata = document.getElementById("democrat");
+  let checkboxIndependiente = document.getElementById("independent");
+  let checkboxRepublicanos = document.getElementById("republican");
 
-/*
+  console.log("Democrata: " + checkboxDemocrata.checked);
+  console.log("Independiente: " + checkboxIndependiente.checked);
+  console.log("Republicanos: " + checkboxRepublicanos.checked);
 
-function myFunction() {
-  // Declare variables 
-  var input, filter, table, tr, td, i, j, visible;
-  input = document.getElementById("myInput");
-  filter = input.value.toUpperCase();
-  table = document.getElementById("senate-data");
-  tr = table.getElementsByTagName("tr");
+  if(checkboxDemocrata.checked) {
+    arrayAux.push('D');
+  }
+  if(checkboxIndependiente.checked) {
+    arrayAux.push('I');
+  }
+  if(checkboxRepublicanos.checked) {
+    arrayAux.push('R');
 
-  // Loop through all table rows, and hide those who don't match the search query
-  for (i = 0; i < tr.length; i++) {
-    visible = false;
-    // Obtenemos todas las celdas de la fila, no sólo la primera 
-    td = tr[i].getElementsByTagName("td");
-    for (j = 0; j < td.length; j++) {
-      if (td[j] && td[j].innerHTML.toUpperCase().indexOf(filter) > -1) {
-        visible = true;
-      }
-    }
-    if (visible === true) {
-      tr[i].style.display = "";
-    } else {
-      tr[i].style.display = "none";
+  }
+  console.log (arrayAux)
+  return filtrarMiembrosPorPartido(arrayAux); 
+
+}
+
+console.log(" ver que tiene arrayAux despues de los if: " + arrayAux)
+
+function filtrarMiembrosPorPartido(arrayAux) { // Me dice 'arrayAux' is declared but its value is never read.
+  let arregloFiltrado = [];
+  for(let i = 0; i<arreglo.length; i++) {
+    let elemento = arreglo[i];
+    if (comprobarSiEstaAdentro(elemento)){
+      arregloFiltrado.push(elemento);
     }
   }
+  return arregloFiltrado;
+  //return arreglo.filter(comprobarSiEstaAdentro);
+  
 }
 
-*/
 
-// OTRA OPCIONN
-
-
-/*
-
-// Filtra el array de miembros de acuerdo a los 3 checkboxes y el menú desplegable.
-
-function filterTable(members) {
-  let filters = [];
-  //Obtengo el item seleccionado del menú desplegable de estados.
-  const selectedState = document.getElementById("filtroEstado").value;
-
-  for (let i = 0; i < members.length; i++) {
-    memberState = members[i].state;
-    // Si el checkbox da verdadero, comprueba si hay algún estado seleccionado y la compara, después copia el elemento
-    // en el array "filters".
-
-    if ((selectedState === "All" || selectedState === memberState) && (document.getElementById("check-republican").checked === true)) {
-      if (members[i].party == "R") {
-        filters.push(members[i]);
-      }
-    }
-    if ((selectedState === "All" || selectedState === memberState) && (document.getElementById("check-democrat").checked === true)) {
-      if (members[i].party == "D") {
-        filters.push(members[i]);
-      }
-    }
-    if ((selectedState === "All" || selectedState === memberState) && (document.getElementById("check-independent").checked === true)) {
-      if (members[i].party == "I") {
-        filters.push(members[i]);
-      }
+function comprobarSiEstaAdentro(elemento) {
+  for(let i = 0; i < arrayAux.length; i++) {
+    if(arrayAux[i] == elemento.party) {
+      return true;
     }
   }
-  return filters;
-
-
+  return false;
+  //return arrayAux.includes(elemento.party);
 }
-*/
+
+armarTablaMiembros(arrayAux)
 
 
-function filterTable(arreglo) {
-  let stateSelect = document.getElementById("filtroSelect").value;
-  let checkeds = Arreglo.from(document.querySelectorAll('input[type=checkbox]:checked')).map(element => element.value);
-  let items = [];
-  let aux = [];
-  checkeds.forEach(element => {
-    aux = [];
-    aux = arreglo.filter(item => item.party === element && (item.state === stateSelect || stateSelect === "All"));
-    items.push.apply(items, aux);
-  })
-  return items;
-}
+
+//FILTRO DEL SELECT 
+
+
+
