@@ -28,7 +28,7 @@
     <div class="container-fluid">
       
       <ul class="nav navbar-nav">
-        <li class="active"><a href="home-starter-page.html">Home</a></li>
+        <li class="active"><a href="home.html">Home</a></li>
         <li class="dropdown">
           <a class="dropdown-toggle" data-toggle="dropdown" href="#">Congress 113
             <span class="caret"></span></a>
@@ -41,22 +41,49 @@
     </div>
   </nav>      
   
+        <!--Contenido -->
 
-        
-        <!--Table container-->
-           
-  <div class="col-md-6">
-                
-            <h2>About Us</h2>
-            <p>Openness, accountability, and honesty define government transparency. In a free society, transparency is government's obligation to share information with citizens. It is at the heart of how citizens hold their public officials accountable. Here at TGIF we believe that government should be transparent.</p>  
-            <p>Governments exist to serve the people. Information on how officials conduct the public business and spend taxpayer money must be readily available and easily understood. This transparency allows good and just governance.  Transparency promotes accountability and provides information for citizens about what their Government is doing.</p>  
-            <p>We also believe that government should be participatory. Public engagement enhances the Government's effectiveness and improves the quality of its decisions. Knowledge is widely dispersed in society, and public officials benefit from having access to that dispersed knowledge. We invite you to use our site to become actively engaged in American government.</p>
-            <p>TGIF works to disclose information in forms that the public can readily find and use. We solicit public feedback to identify information of greatest use to the public.</p>
 
-            <button class="accordion">Section 1</button>
-            <div class="panel">
+       <div class="col-md-12">
+              
+        <h2>About Us</h2>
+         <div>
+          <p>Openness, accountability, and honesty define government transparency. In a free society, 
+             transparency is government's obligation to share information with citizens. It is at the heart of 
+             how citizens hold their public officials accountable. Here at TGIF we believe that government should 
+              be transparent. Governments exist to serve the people. Information on how officials conduct the public 
+              business and spend taxpayer money must be readily available and easily understood. 
+              This transparency allows good and just governance.  Transparency promotes accountability and provides
+               information for citizens about what their Government is doing. We also believe that government 
+               should be participatory. Public engagement enhances the Government's effectiveness and improves 
+               the quality of its decisions. Knowledge is widely dispersed in society, and public officials 
+               benefit from having access to that dispersed knowledge. We invite you to use our site to become 
+               actively engaged in American government. TGIF works to disclose information in forms 
+               that the public can readily find and use. We solicit public feedback to identify 
+               information of greatest use to the public. </p>
+               
+               <!-- Imagen que no puedo acomodar al costado del texto
+               <img src="descarga.png" alt="My Image" class="img-thumbnail" > </div> -->
 
-                       
+            <!-- El boton de "leer mas"-->
+
+            <div class="accordion" id="accordionExample275">
+                <div class="card z-depth-0 bordered">
+                  <div class="card-header" id="headingOne2">
+                    <h5 class="mb-0">
+                      <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne2"
+                        aria-expanded="true" aria-controls="collapseOne2">
+                        Read More
+                      </button>
+                    </h5>
+                  </div>
+<!-- Fin boton "Leer mas"-->
+
+
+              <!-- lo que me oculta el resto del texto dentro del leer mas -->      
+                  <div id="collapseOne2" class="collapse" aria-labelledby="headingOne2"
+                  data-parent="#accordionExample275">
+                  <div class="card-body">        
             <h3>Background History of Government Transparency</h3>
             <p>In the West, the idea that government should be open to public scrutiny and susceptible to public opinion dates back at least to the time of the Enlightenment, when many philosophes made an attack on absolutist doctrine of state secrecy, a core part of their intellectual project. The passage of formal legislative instruments to this end can also be traced to this time with Sweden, for example, (which then included Finland as a Swedish-governed territory) enacting free press legislation as part of its constitution (Freedom of the Press Act, 1766). This approach, and that of the philosophes more broadly, is strongly related to recent historiography on the eighteenth-century public sphere.
 
@@ -67,11 +94,15 @@
       		<p>The United States passed its Freedom of Information Act (FOIA) in 1966, FOIAs, Access to Information Acts (AIAs) or equivalent laws were passed in Denmark and Norway in 1970.</p>  
 
             </div>
-        
-    </div>
-      
 
-      
+          </div>
+        </div>
+      </div>
+        
+  
+
+    <div class="col-md-12">
+     
   <!-- Footer -->
   <footer class="page-footer">
 
@@ -81,27 +112,6 @@
   
     </footer>
     <!-- Footer -->
-
-
-    <script src="main.js"></script>
-    
-
-<script>
-        var acc = document.getElementsByClassName("accordion");
-        var i;
-        
-        for (i = 0; i < acc.length; i++) {
-          acc[i].addEventListener("click", function() {
-            this.classList.toggle("active");
-            var panel = this.nextElementSibling;
-            if (panel.style.display === "block") {
-              panel.style.display = "none";
-            } else {
-              panel.style.display = "block";
-            }
-          });
-        }
-        </script>
-
+    </div>
 </body>
 </html>
