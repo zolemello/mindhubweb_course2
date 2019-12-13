@@ -23,25 +23,42 @@
     </div>
   </div>
 
-  <!-- Navegacion-->
-  </div>
-  <nav class="navbar navbar-default">
-    <div class="container-fluid">
-      
-      <ul class="nav navbar-nav">
-        <li class="active"><a href="home.html">Home</a></li>
-        <li class="dropdown">
-          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Congress 113
-            <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="senate-data.html">Senate</a></li>
-            <li><a href="house-data.html">House</a></li>
-          </ul>
-        </li>
-      </ul>
-    </div>
-  </nav>
+  
+    <!-- Navegacion-->
+    
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="home.html">Home</a></li>
+          <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Congress 113
+              <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="senate-data.html">Senate</a></li>
+              <li><a href="house-data.html">House</a></li>
+            </ul>
+          </li>
+          <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Attendance
+              <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="senate_attendance.html">Senate</a></li>
+              <li><a href="house-data.html">House</a></li>
+            </ul>
+          </li>
+          <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Party Loyalty
+              <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="senate-data.html">Senate</a></li>
+              <li><a href="house-data.html">House</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </nav>
 
+    
   <div class="col-md-12">
 
     <h2>Senators</h2>
@@ -86,8 +103,8 @@
           <label class="checkbox-inline">
 
        <label>Filter by State:</label>
-        <select class="btn btn-mini" id="filtroEstado" onchange="stateList()">
-                        <option value="all">All</option>
+        <select class="btn btn-mini" id="estados" onchange="filtrarEstados()">
+                        <option value="all" selected>All</option>
                         <option value="AL" > Alabama</option>
                         <option value="AK" >Alaska</option>
                         <option value="AZ">Arizona</option>

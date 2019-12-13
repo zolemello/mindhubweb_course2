@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  
+  </head>
+  
+  <body>
+  
+  
+  <!-- logo y mail -->
+    <div class="row">
+      <div class="col-sm-6">
+        <img src="LOGOTGIF.jpg" class="img-circle" alt="TGIF LOGO" height="100px" width=" 300px"> </div>
+      <div class="col-sm-6" class="text-right">
+        <div class="text-right" class="d-flex flex-row-reverse" class="p-2"></div> <span class="glyphicon glyphicon-envelope"></span> <a href="mailto:info@tgif.net">info@tgif.net</a>
+      </div>
+    </div>
+  
+    <!-- Navegacion-->
+    
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="home.html">Home</a></li>
+          <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Congress 113
+              <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="senate-data.html">Senate</a></li>
+              <li><a href="house-data.html">House</a></li>
+            </ul>
+          </li>
+          <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Attendance
+              <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="senate_attendance.html">Senate</a></li>
+              <li><a href="house-data.html">House</a></li>
+            </ul>
+          </li>
+          <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Party Loyalty
+              <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="senate_party_loyalty.html">Senate</a></li>
+              <li><a href="house-data.html">House</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  
+        <!--Table container-->
+        <div class="row">
+
+        <div class="col-lg-6 col-md-6 col-sm-6 col-6">
+          
+            <h2>Attendance</h2>
+            <p class="text-justify">The Constitution specifies that a majority of members constitutes a quorum to do business in each house. Representatives and senators rarely force the presence of a quorum by demanding quorum calls; thus, in most cases, debates continue even if a majority is not present.</p>
+
+            <p class="text-justify">The Senate uses roll-call votes; a clerk calls out the names of all the senators, each senator stating "aye" or "no" when his or her name is announced. The House reserves roll-call votes for the most formal matters, as a roll-call of all 435 representatives takes quite some time; normally, members vote by electronic device. In the case of a tie, the motion in question fails. In the Senate, the Vice President may (if present) cast the tiebreaking vote.</p>
+          </div>
+         
+         
+          <div class="col-lg-6 col-md-6 col-sm-6 col-6"> 
+                    
+            <h2>Senate at a glance</h2>
+            <table class="table table-bordered table-striped" id="senateAtAGlance" >
+        
+            </table>
+
+              
+    </div>
+  </div>
+
+  <div class="row">
+
+  <div class="col-lg-6 col-md-6 col-sm-6 col-6"> 
+                    
+    <h2>Least Engaged (Bottom 10% Attendance)</h2>
+    <table class="table table-bordered table-striped" id="leastEngaged" >
+    </table>
+    
+
+</div>
+
+
+<div class="col-lg-6 col-md-6 col-sm-6 col-6"> 
+                    
+    <h2>Most Engaged (Top 10% Attendance)</h2>
+    <table class="table table-bordered table-striped" id="mostEngaged" >
+
+    </table>
+
+</div>
+
+
+</div>
+
+
+
+      
+      <!-- Footer -->
+      <footer class="page-footer">
+    
+        <!-- Copyright -->
+        <div class="footer-copyright text-center py-3">© 2016 TGIF | All Rigths Reserved</div>
+        <!-- Copyright -->
+    
+      </footer>
+      <!-- Footer -->
+    
+    
+      <!-- JavaScript -->
+      <!--<script src="pro-congress-113-senate.js"></script>-->
+      <script src="senate_statistics.js"></script>
+      
+
+
+    
+    </body>
+    
+    </html>

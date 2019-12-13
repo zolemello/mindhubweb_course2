@@ -4846,136 +4846,176 @@ var data =
        }
     ]
  }
- // Punto 4 
- var variableData = document.getElementById("senate-data");
-  //document.getElementById("senate-data").innerHTML = JSON.stringify(data,null,2);
 
 
- // Punto 5
+// Cosas de las tablitas para Senate at glance
+var statistics = {
+        "NoOfRepsD": 0,
+        "votedWithPartyD": 0,
+        "democratsVotesAverage": 0,
 
-var str = JSON.stringify(data, null, 2)
+        "NoOfRepsR": 0,
+        "votedWithPartyR": 0,
+        "republicansVotesAverage": 0,
+    
+        "NoOfRepsI": 0,
+        "votedWithPartyI": 0,
+        "independentsVotesAverage": 0,
+   
+        "NoOfRepsTotal":0,
+        "votedWithPartyTotal": 0,
+        
+    }
+
+var str = JSON.stringify(data, null, 2);
 var valor = JSON.parse(str)
-var pro = document.getElementById("senate-data")
-var tbody= document.createElement("tbody")
-// pro.appendChild(tbody)
-//var tabla="<thead class='thead-dark'><tr><th class='text-center'>Full Name</th><th>Party</th><th>State</th><th>Senority</th><th>Percentage of votes</th></tr></thead>"
+var arrayMiembros = valor.results[0].members;
+console.log(arrayMiembros) // El array de los miembros
 
-var arreglo = valor.results[0].members;
+var tablaGlance = "<thead class='thead-dark'><tr><th class='text-center'>Party</th><th>Number of Rep</th><th>Voted with Party (%)</th></tr></thead>"
+
+var dibujarTablaGlance = document.getElementById("senateAtAGlance");
+
+
+statistics.NoOfRepsD = nroDeMiembros (arrayMiembros, "D"); 
+statistics.NoOfRepsR = nroDeMiembros (arrayMiembros, "R"); 
+statistics.NoOfRepsI = nroDeMiembros (arrayMiembros, "I"); 
+statistics.NoOfRepsTotal = statistics.NoOfRepsD + statistics.NoOfRepsI + statistics.NoOfRepsR;  
 
 
 
-armarTablaMiembros(arreglo)
+//Funcion que me cuenta los miembros de cada partido comparando la letra
+function nroDeMiembros(array, letra) {
+    var nroMiembrosPorPartido = 0;
+    for (var i = 0; i < array.length; i++) {
+        var miembrosPartido = array[i].party;
+        if (miembrosPartido == letra) {
+            nroMiembrosPorPartido++;
+        }
+    }
+    //console.log(nroMiembrosPorPartido)
+    return nroMiembrosPorPartido;
+}
 
-function armarTablaMiembros(miembros){ // Esta es la funcion de hacer la tabla
+
+statistics.democratsVotesAverage = (average(arrayMiembros, "D") / statistics.NoOfRepsD).toFixed(2);
+statistics.republicansVotesAverage = (average(arrayMiembros, "R") / statistics.NoOfRepsR).toFixed(2);
+    if (statistics.NoOfRepsI == 0) {
+      statistics.independentsVotesAverage = 0;
+    } 
+      else {
+        statistics.independentsVotesAverage = (average(arrayMiembros, "I") / statistics.NoOfRepsI).toFixed(2);
+    }
+
+//statistics.votedWithPartyTotal =( ((statistics.independentsVotesAverage) + (statistics.democratsVotesAverage) + (statistics.republicansVotesAverage)) / 3).toFixed(2); 
+
+var votosTotales = 0;
+for (var i = 0; i < arrayMiembros.length; i++) {
+    votosTotales += arrayMiembros[i].votes_with_party_pct; 
+}
  
-  var tabla="<thead class='thead-dark'><tr><th class='text-center'>Full Name</th><th>Party</th><th>State</th><th>Senority</th><th>Percentage of votes</th></tr></thead>"
+statistics.votedWithPartyTotal = (votosTotales / arrayMiembros.length).toFixed(2);
+//console.log(votosTotales)
 
-  for (let i=0;i<miembros.length;i++){
-  
-     tabla +="<tr>" // Agrega una fila por cada vuelta
-      //console.log(array[i].last_name+array[i].first_name+array[i].middle_name)
-       if(miembros[i].last_name!=null && miembros[i].first_name!=null && miembros[i].middle_name!=null){
-    tabla+="<td><a href='"+miembros[i].url+"'>"+miembros[i].last_name+" "+miembros[i].first_name+" "+miembros[i].middle_name+"</a></td>" // el href ese es para agregarle link al nombre del tipo
-}
-   else if(miembros[i].middle_name==null) {
-  tabla+="<td><a href='"+miembros[i].url+"'>"+miembros[i].last_name+" "+miembros[i].first_name+"</a></td>"
-}
+// 93.1
 
-    tabla+="<td>"+" "+miembros[i].party+" "+"</td>"
-    tabla+="<td>"+" "+miembros[i].state+" "+"</td>"
-    tabla+="<td>"+" "+miembros[i].seniority+" "+"</td>"
-    tabla+="<td>"+" "+miembros[i].votes_with_party_pct+"%"+" "+"</td></tr>"
-}
-//
+function average(arrayMiembros, letra) { // Promedio raro
+    var acumulador = 0;
+    for (var i = 0; i < arrayMiembros.length; i++) { //Mientras haya algo en el array de miembros
 
-// tbody.appendChild(tabla)
-
-// pro.appendChild(tbody)
-
-pro.innerHTML=tabla
-}
-//Filtro del checkbox
-
- let arrayAux=[]; 
-
-
-function filtrarTablaCheckbox () {
-  arrayAux=[];
-  let checkboxDemocrata = document.getElementById("democrat");
-  let checkboxIndependiente = document.getElementById("independent");
-  let checkboxRepublicanos = document.getElementById("republican");
-
-  console.log("Democrata: " + checkboxDemocrata.checked);
-  console.log("Independiente: " + checkboxIndependiente.checked);
-  console.log("Republicanos: " + checkboxRepublicanos.checked);
-
-  if(checkboxDemocrata.checked) {
-    arrayAux.push('D');
-  }
-  if(checkboxIndependiente.checked) {
-    arrayAux.push('I'); 
-  }
-  if(checkboxRepublicanos.checked) {
-    arrayAux.push('R');
-
-  }
-  console.log (arrayAux)
-  return filtrarMiembrosPorPartido(arrayAux); 
-  
-
-}
-
-console.log(" ver que tiene arrayAux despues de los if: " + arrayAux)
-
-function filtrarMiembrosPorPartido(arrayAux) { // Me dice 'arrayAux' is declared but its value is never read.
-  let arregloFiltrado = [];
-  for(let i = 0; i<arreglo.length; i++) {
-    let elemento = arreglo[i];
-    if (comprobarSiEstaAdentro(elemento)){
-      arregloFiltrado.push(elemento);
+        if (arrayMiembros[i].party == letra) { //Si el partido es el mismo 
+            acumulador = arrayMiembros[i].votes_with_party_pct + acumulador; // a la variable acumulador es cuantos votos tuvo mas lo que tenia
+        }
     }
-  }
-  return arregloFiltrado;
-  //return arreglo.filter(comprobarSiEstaAdentro);
-  
+    return acumulador;
 }
 
 
-function comprobarSiEstaAdentro(elemento) {
-  for(let i = 0; i < arrayAux.length; i++) {
-    if(arrayAux[i] == elemento.party) {
-      return true;
-    }
-  }
-  return false;
-  //return arrayAux.includes(elemento.party);
+function dibujarGlance (){
+
+tablaGlance += "<tr><td>Democrats</td>"
+tablaGlance += "<td>" + "" + statistics.NoOfRepsD + "" + "</td>" 
+tablaGlance += "<td>" + "" + statistics.democratsVotesAverage + "" + "%" +"</td></tr>"
+
+tablaGlance += "<tr><td>Republicans</td>"
+tablaGlance += "<td>" + "" + statistics.NoOfRepsR + "" + "</td>" 
+tablaGlance +=  "<td>" + "" + statistics.republicansVotesAverage + "" + "%" +"</td></tr>"
+
+
+tablaGlance += "<tr><td>Independents</td>"
+tablaGlance += "<td>" + "" + statistics.NoOfRepsI + "" + "</td>" 
+tablaGlance +=  "<td>" + "" + statistics.independentsVotesAverage + "" + "%" +"</td></tr>"
+
+
+tablaGlance += "<tr><td>Total</td>"
+tablaGlance += "<td>" + "" + statistics.NoOfRepsTotal + "" + "</td>" 
+tablaGlance +=  "<td>" + ""  + statistics.votedWithPartyTotal + "" + "%" +"</td></tr>"
+}
+
+dibujarGlance();
+dibujarTablaGlance.innerHTML = tablaGlance;
+
+
+
+// Tabla dos
+
+var tablaLeastEngaged = "<thead class='thead-dark'><tr><th class='text-center'>Name</th><th>Nro. Missed votes</th><th>% Missed</th></tr></thead>"
+
+var dibujarTablaLeastEngaged = document.getElementById("leastEngaged");
+
+
+function dibujarTablaLeast (){
+
+  tablaLeastEngaged += "<tr><td>Democrats</td>"
+  tablaLeastEngaged += "<td>" + "" + statistics.NoOfRepsD + "" + "</td>" 
+  tablaLeastEngaged += "<td>" + "" + statistics.democratsVotesAverage + "" + "%" +"</td></tr>"
+
+  tablaLeastEngaged += "<tr><td>Republicans</td>"
+  tablaLeastEngaged += "<td>" + "" + statistics.NoOfRepsR + "" + "</td>" 
+  tablaLeastEngaged +=  "<td>" + "" + statistics.republicansVotesAverage + "" + "%" +"</td></tr>"
+
+
+   tablaLeastEngaged += "<tr><td>Independents</td>"
+   tablaLeastEngaged += "<td>" + "" + statistics.NoOfRepsI + "" + "</td>" 
+   tablaLeastEngaged +=  "<td>" + "" + statistics.independentsVotesAverage + "" + "%" +"</td></tr>"
+
+
+   tablaLeastEngaged += "<tr><td>Total</td>"
+   tablaLeastEngaged += "<td>" + "" + statistics.NoOfRepsTotal + "" + "</td>" 
+  tablaLeastEngaged +=  "<td>" + ""  + statistics.votedWithPartyTotal + "" + "%" +"</td></tr>"
 }
 
 
-var arreglo = valor.results[0].members;
-armarTablaMiembros(arreglo)
+dibujarTablaLeast();
+dibujarTablaLeastEngaged.innerHTML = tablaLeastEngaged;
+
+// Tabla tres
+
+var tablaMostEngaged = "<thead class='thead-dark'><tr><th class='text-center'>Name</th><th>Nro. Missed votes</th><th>% Missed</th></tr></thead>"
+
+var dibujarTablaMostEngaged = document.getElementById("mostEngaged");
 
 
+function dibujarTablaMost (){
 
-//FILTRO DEL SELECT 
+  tablaMostEngaged += "<tr><td>ACA IRIA EL NOMBRE</td>"
+  tablaMostEngaged += "<td>" + "" + statistics.NoOfRepsD + "" + "</td>" 
+  tablaMostEngaged += "<td>" + "" + statistics.democratsVotesAverage + "" + "%" +"</td></tr>"
 
-// Filtro los estados pero no se como ademas agregar el partido.  
-//Igual hace lo que tendria que hacer =D 
+  tablaMostEngaged += "<tr><td>CON UN CICLO FOR?</td>"
+  tablaMostEngaged += "<td>" + "" + statistics.NoOfRepsR + "" + "</td>" 
+  tablaMostEngaged +=  "<td>" + "" + statistics.republicansVotesAverage + "" + "%" +"</td></tr>"
 
-var arregloEstados = [];
-function filtrarEstados () {
-  let selectedState = document.getElementById("estados");
 
-  if( selectedState.value === "all"){
-    arregloEstados = arreglo;
-  } else {
-   arregloEstados = arreglo.filter(data=> {
-   return data.state === selectedState.value
-  });
-   }
+  tablaMostEngaged += "<tr><td>Independents</td>"
+  tablaMostEngaged += "<td>" + "" + statistics.NoOfRepsI + "" + "</td>" 
+  tablaMostEngaged +=  "<td>" + "" + statistics.independentsVotesAverage + "" + "%" +"</td></tr>"
 
-  // usando la funcion filter en vez de repetir lo de los checkbox con 50 if uno de cada estado
 
-   return armarTablaMiembros (arregloEstados);
-  }
+  tablaMostEngaged += "<tr><td>Total</td>"
+  tablaMostEngaged += "<td>" + "" + statistics.NoOfRepsTotal + "" + "</td>" 
+  tablaMostEngaged +=  "<td>" + ""  + statistics.votedWithPartyTotal + "" + "%" +"</td></tr>"
+}
 
+dibujarTablaMost();
+dibujarTablaMostEngaged.innerHTML = tablaMostEngaged;

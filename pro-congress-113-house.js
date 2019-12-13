@@ -20718,13 +20718,11 @@ var data = {
 
 
  // Punto 4 
- //document.getElementById("senate-data").innerHTML = JSON.stringify(data,null,2);
-
  var variableData =  document.getElementById("house-data");
 
 
 
- //variableData.textContent =  JSON.stringify(data,null,2);
+
 
  // Punto 5
 
@@ -20733,47 +20731,121 @@ var valor = JSON.parse(str)
 var pro = document.getElementById("house-data")
 var tbody= document.createElement("tbody")
 // pro.appendChild(tbody)
-var tabla="<thead class='thead-dark'><tr><th class='text-center'>Full Name</th><th class='text-center'>Party</th><th class='text-center'>State</th><th class='text-center'>Senority</th><th class='text-center'>Percentage of votes</th></tr></thead>"
-var arreglo = valor.results[0].members
-agregarVotantes(arreglo)
-function agregarVotantes(arreglo){
-  for (let i=0;i<arreglo.length;i++)
+//var tabla="<thead class='thead-dark'><tr><th class='text-center'>Full Name</th><th>Party</th><th>State</th><th>Senority</th><th>Percentage of votes</th></tr></thead>"
 
-{
+var arreglo = valor.results[0].members;
 
-tabla +="<tr>" // Agrega una fila por cada vuelta
 
-//console.log(array[i].last_name+array[i].first_name+array[i].middle_name)
 
-if(arreglo[i].last_name!=null && arreglo[i].first_name!=null && arreglo[i].middle_name!=null)
+armarTablaMiembros(arreglo)
 
-{
+function armarTablaMiembros(miembros){ // Esta es la funcion de hacer la tabla
+ 
+  var tabla="<thead class='thead-dark'><tr><th class='text-center'>Full Name</th><th>Party</th><th>State</th><th>Senority</th><th>Percentage of votes</th></tr></thead>"
 
-tabla+="<td><a href='"+arreglo[i].url+"'>"+arreglo[i].last_name+" "+arreglo[i].first_name+" "+arreglo[i].middle_name+"</a></td>" // el href ese es para agregarle link al nombre del tipo
-
+  for (let i=0;i<miembros.length;i++){
+  
+     tabla +="<tr>" // Agrega una fila por cada vuelta
+      //console.log(array[i].last_name+array[i].first_name+array[i].middle_name)
+       if(miembros[i].last_name!=null && miembros[i].first_name!=null && miembros[i].middle_name!=null){
+    tabla+="<td><a href='"+miembros[i].url+"'>"+miembros[i].last_name+" "+miembros[i].first_name+" "+miembros[i].middle_name+"</a></td>" // el href ese es para agregarle link al nombre del tipo
+}
+   else if(miembros[i].middle_name==null) {
+  tabla+="<td><a href='"+miembros[i].url+"'>"+miembros[i].last_name+" "+miembros[i].first_name+"</a></td>"
 }
 
-else if(arreglo[i].middle_name==null)
-
-{
-
-tabla+="<td><a href='"+arreglo[i].url+"'>"+arreglo[i].last_name+" "+arreglo[i].first_name+"</a></td>"
-
+    tabla+="<td>"+" "+miembros[i].party+" "+"</td>"
+    tabla+="<td>"+" "+miembros[i].state+" "+"</td>"
+    tabla+="<td>"+" "+miembros[i].seniority+" "+"</td>"
+    tabla+="<td>"+" "+miembros[i].votes_with_party_pct+"%"+" "+"</td></tr>"
 }
-
-tabla+="<td>"+" "+arreglo[i].party+" "+"</td>"
-
-tabla+="<td>"+" "+arreglo[i].state+" "+"</td>"
-
-tabla+="<td>"+" "+arreglo[i].seniority+" "+"</td>"
-
-tabla+="<td>"+" "+arreglo[i].votes_with_party_pct+"%"+" "+"</td></tr>"
-}
-
-}
+//
 
 // tbody.appendChild(tabla)
 
 // pro.appendChild(tbody)
 
 pro.innerHTML=tabla
+}
+//Filtro del checkbox
+
+ let arrayAux=[]; 
+
+
+function filtrarTablaCheckbox () {
+  arrayAux=[];
+  let checkboxDemocrata = document.getElementById("democrat");
+  let checkboxIndependiente = document.getElementById("independent");
+  let checkboxRepublicanos = document.getElementById("republican");
+
+  console.log("Democrata: " + checkboxDemocrata.checked);
+  console.log("Independiente: " + checkboxIndependiente.checked);
+  console.log("Republicanos: " + checkboxRepublicanos.checked);
+
+  if(checkboxDemocrata.checked) {
+    arrayAux.push('D');
+  }
+  if(checkboxIndependiente.checked) {
+    arrayAux.push('I'); 
+  }
+  if(checkboxRepublicanos.checked) {
+    arrayAux.push('R');
+
+  }
+  console.log (arrayAux)
+  return filtrarMiembrosPorPartido(arrayAux); 
+  
+
+}
+
+console.log(" ver que tiene arrayAux despues de los if: " + arrayAux)
+
+function filtrarMiembrosPorPartido(arrayAux) { // Me dice 'arrayAux' is declared but its value is never read.
+  let arregloFiltrado = [];
+  for(let i = 0; i<arreglo.length; i++) {
+    let elemento = arreglo[i];
+    if (comprobarSiEstaAdentro(elemento)){
+      arregloFiltrado.push(elemento);
+    }
+  }
+  return arregloFiltrado;
+  //return arreglo.filter(comprobarSiEstaAdentro);
+  
+}
+
+
+function comprobarSiEstaAdentro(elemento) {
+  for(let i = 0; i < arrayAux.length; i++) {
+    if(arrayAux[i] == elemento.party) {
+      return true;
+    }
+  }
+  return false;
+  //return arrayAux.includes(elemento.party);
+}
+
+
+var arreglo = valor.results[0].members;
+armarTablaMiembros(arreglo)
+
+
+
+//FILTRO DEL SELECT 
+
+
+
+var arregloEstados = [];
+function filtrarEstados () {
+  let selectedState = document.getElementById("estados");
+
+  if( selectedState.value === "all"){
+    arregloEstados = arreglo;
+  } else {
+   arregloEstados = arreglo.filter(data=> {
+   return data.state === selectedState.value
+  });
+   }
+
+  // usando la funcion filter en vez de repetir lo de los checkbox con 50 if uno de cada estado
+   return armarTablaMiembros (arregloEstados);
+  }
