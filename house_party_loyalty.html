@@ -57,6 +57,9 @@
     </nav>
   
         <!--Table container-->
+
+        <section class="container" id="app"> 
+
         <div class="row">
 
         <div class="col-lg-6 col-md-6 col-sm-6 col-6">
@@ -74,8 +77,42 @@
           <div class="col-lg-6 col-md-6 col-sm-6 col-6"> 
                     
             <h2>House at a glance</h2>
-            <table class="table table-bordered table-striped" id="houseAtAGlance" >
+                 <!-- ESTO ES DE LA TAREA 3
+ <table class="table table-bordered table-striped" id="houseAtAGlance" >
         
+            </table> -->
+
+
+            <table class="table tableBorder">
+              <thead class="thead-dark">
+                <tr>
+                  <th class="text-center align-top">Party</th>
+                  <th class="text-center align-top">Number of Reps</th>
+                  <th class="text-center align-top">% Voted with Party</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Democrat</td>
+                  <td class="text-center" id="totD">{{ estadTotal.totD}}</td>
+                  <td class="text-center" id="totPorcD">{{ estadTotal.totPorcD}}</td>
+                </tr>
+                <tr>
+                  <td>Republican</td>
+                  <td class="text-center" id="totR">{{ estadTotal.totR}}</td>
+                  <td class="text-center" id="totPorcR">{{ estadTotal.totPorcR}}</td>
+                </tr>
+                <tr>
+                  <td>Independent</td>
+                  <td class="text-center" id="totI">{{estadTotal.totI}}</td>
+                  <td class="text-center" id="totPorcI">{{ estadTotal.totPorcI}}</td>
+                </tr>
+                <tr>
+                  <td>Total</td>
+                  <td class="text-center" id="totales">{{ estadTotal.totales}}</td>
+                  <td class="text-center" id="totatesPorc">{{ estadTotal.totalPorc}}</td>
+                </tr>
+              </tbody>
             </table>
 
               
@@ -87,7 +124,26 @@
   <div class="col-lg-6 col-md-6 col-sm-6 col-6"> 
                     
       <h2>Least Loyal (Bottom 10% of Party)</h2>
-      <table class="table table-bordered table-striped" id="leastLoyal" ></table>
+           <!-- ESTO ES DE LA TAREA 3
+ <table class="table table-bordered table-striped" id="leastLoyal" ></table> -->
+ <table class="table tableBorder" id="jsonData">
+  <thead class="thead-dark">
+    <tr>
+      <th>Full Name</th>
+      <th>Number of Party Votes</th>
+      <th>% of Party Votes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr v-for="person in estadTotal.least_loyal">
+      <td class="link"><a v-bind:href="person.url" target="_blank">{{person.first_name}} {{person.middle_name}}
+          {{person.last_name}}</a></td>
+      <td class="text-center">{{person.total_votes}}</td>
+      <td class="text-center">{{person.votes_with_party_pct}}</td>
+    </tr>
+  </tbody>
+</table>
+
     
 
    </div>
@@ -96,17 +152,35 @@
    <div class="col-lg-6 col-md-6 col-sm-6 col-6"> 
                     
       <h2>Most Loyal (Top 10% of Party)</h2>
-      <table class="table table-bordered table-striped" id="mostLoyal" >  
+      <!-- ESTO ES DE LA TAREA 3
+        <table class="table table-bordered table-striped" id="mostLoyal" >  
+          </table> -->
+          <table class="table tableBorder" id="jsonData">
+            <thead class="thead-dark">
+              <tr>
+                <th>Full Name</th>
+                <th>Number of Party Votes</th>
+                <th>% of Party Votes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="person in estadTotal.most_loyal">
+                <td class="link"><a v-bind:href="person.url" target="_blank">{{person.first_name}} {{person.middle_name}}
+                    {{person.last_name}}</a></td>
+                <td class="text-center">{{person.total_votes}}</td>
+                <td class="text-center">{{person.votes_with_party_pct}}</td>
+              </tr>
+            </tbody>
           </table>
 
 
-    </table>
+   
 
     </div>
 
 
 </div>
-
+</section>
 
 
       
@@ -123,16 +197,28 @@
     
       <!-- JavaScript -->
       <!--<script src="pro-congress-113-senate.js"></script>-->
+     <!-- ESTO ES DE LA TAREA 3
+     
       <script src="house_statistics.js"></script>
 
       <script>
       dibujarTabla_MostLoyal.innerHTML = tablaMostLoyal;
        dibujarTabla_LeastLoyal.innerHTML = tablaLeastLoyal;
-        </script>
-      
+        </script> -->
+      <script>
+        var opc = "house"
+      </script>
+
+
+       <!--esto es vue-->
+       <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+
+       <script src="main.js"></script>
 
 
     
-    </body>
+   
     
     </html>
+
+  </body>

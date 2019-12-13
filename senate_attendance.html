@@ -3,11 +3,14 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-    
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
     <title>Senate Attendance</title>
+
+      <!-- JQuery-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
   </head>
   
   <body>
@@ -57,6 +60,7 @@
     </nav>
   
         <!--Table container-->
+  <section class="container" id="app"> 
         <div class="row">
 
         <div class="col-lg-6 col-md-6 col-sm-6 col-6">
@@ -71,21 +75,74 @@
           <div class="col-lg-6 col-md-6 col-sm-6 col-6"> 
                     
             <h2>Senate at a glance</h2>
-            <table class="table table-bordered table-striped" id="senateAtAGlance" >
-        
-            </table>
+            <!-- ESTA ERA LA TABLA 
+              FROMA DE ARMAR
+              LA TABLA 
+              DE LA TAREA 3
+              <table class="table table-bordered table-striped" id="senateAtAGlance" > -->
+
+                <table class="table tableBorder">
+                  <thead class="thead-dark">
+                    <tr>
+                      <th class="text-center align-top">Party</th>
+                      <th class="text-center align-top">Number of Reps</th>
+                      <th class="text-center align-top">% Voted with Party</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Democrat</td>
+                      <td class="text-center" id="totD">{{ estadTotal.totD}}</td>
+                      <td class="text-center" id="totPorcD">{{ estadTotal.totPorcD}}</td>
+                    </tr>
+                    <tr>
+                      <td>Republican</td>
+                      <td class="text-center" id="totR">{{ estadTotal.totR}}</td>
+                      <td class="text-center" id="totPorcR">{{ estadTotal.totPorcR}}</td>
+                    </tr>
+                    <tr>
+                      <td>Independent</td>
+                      <td class="text-center" id="totI">{{estadTotal.totI}}</td>
+                      <td class="text-center" id="totPorcI">{{ estadTotal.totPorcI}}</td>
+                    </tr>
+                    <tr>
+                      <td>Total</td>
+                      <td class="text-center" id="totales">{{ estadTotal.totales}}</td>
+                      <td class="text-center" id="totatesPorc">{{ estadTotal.totalPorc}}</td>
+                    </tr>
+                  </tbody>
+                </table>
 
               
            </div>
   </div>
 
-<div class="row">
+     <div class="row">
 
-  <div class="col-lg-6 col-md-6 col-sm-6 col-6"> 
+    <div class="col-lg-6 col-md-6 col-sm-6 col-6"> 
                     
     <h2>Least Engaged (Bottom 10% Attendance)</h2>
-    <table class="table table-bordered table-striped" id="leastEngaged" >
+    <!-- TABLA TAREA 3
+      <table class="table table-bordered table-striped" id="leastEngaged" >
     </table>
+  -->
+    <table class="table tableBorder" id="jsonData">
+        <thead class="thead-dark">
+          <tr>
+            <th>Full Name</th>
+            <th>Missed Votes</th>
+            <th>% Missed</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="person in estadTotal.least_engaged">
+            <td class="link"><a v-bind:href="person.url" target="_blank">{{person.first_name}} {{person.middle_name}}
+                {{person.last_name}}</a></td>
+            <td class="text-center">{{person.missed_votes}}</td>
+            <td class="text-center">{{person.missed_votes_pct}}</td>
+          </tr>
+        </tbody>
+      </table>
     
 
    </div>
@@ -94,18 +151,35 @@
    <div class="col-lg-6 col-md-6 col-sm-6 col-6"> 
                     
     <h2>Most Engaged (Top 10% Attendance)</h2>
-    <table class="table table-bordered table-striped" id="mostEngaged" >
+   <!-- TABLA TAREA 3
+    <table class="table table-bordered table-striped" id="mostEngaged" > </table>
+  -->
+    <table class="table tableBorder" id="jsonData">
+        <thead class="thead-dark">
+          <tr>
+            <th>Full Name</th>
+            <th>Missed Votes</th>
+            <th>% Missed</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="person in estadTotal.most_engaged">
+            <td class="link"><a v-bind:href="person.url" target="_blank">{{person.first_name}} {{person.middle_name}}
+                {{person.last_name}}</a></td>
+            <td class="text-center">{{person.missed_votes}}</td>
+            <td class="text-center">{{person.missed_votes_pct}}</td>
+          </tr>
+        </tbody>
+      </table>
 
-    </table>
+      </div>
+
 
     </div>
 
+  </section>
 
-</div>
-
-
-
-      
+     
       <!-- Footer -->
       <footer class="page-footer">
     
@@ -119,17 +193,28 @@
     
       <!-- JavaScript -->
       <!--<script src="pro-congress-113-senate.js"></script>-->
-      <script src="senate_statistics.js"></script>
+         <!--esto es vue-->
+         <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
 
-      <script>
-      
+         <script>
+          //puesto aca para que no rompa luego en el js  
+            var opc = "senate"
+        </script>
+         
+
+     <!-- ESTE ERA EL JS PARA LA TAREA 3 <script src="senate_statistics.js"></script>-->
+     <script src="main.js"></script>
+
+      <!-- <script>      
         dibujarTablaLeastEngaged.innerHTML = tablaLeastEngaged;
         dibujarTablaMostEngaged.innerHTML = tablaMostEngaged;
       </script>
-      
-
+    -->       
 
     
+      
+      
+          
     </body>
     
     </html>
