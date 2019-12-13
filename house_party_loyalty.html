@@ -6,8 +6,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-  
-    <title>House Attendance</title>
+    
+    <title>House Party Loyalty</title>
   </head>
   
   <body>
@@ -61,10 +61,13 @@
 
         <div class="col-lg-6 col-md-6 col-sm-6 col-6">
           
-            <h2>Attendance</h2>
-            <p class="text-justify">The Constitution specifies that a majority of members constitutes a quorum to do business in each house. Representatives and senators rarely force the presence of a quorum by demanding quorum calls; thus, in most cases, debates continue even if a majority is not present.</p>
+            <h2>Party Loyalty</h2>
+           
+              <p class="text-justify"> Those who consider themselves to be strong partisans, strong Democrats and strong Republicans respectively,
+              tend to be the most faithful in voting for their party's nominee for office and legislation that backs their
+               party's agenda. </p>
 
-            <p class="text-justify">The Senate uses roll-call votes; a clerk calls out the names of all the senators, each senator stating "aye" or "no" when his or her name is announced. The House reserves roll-call votes for the most formal matters, as a roll-call of all 435 representatives takes quite some time; normally, members vote by electronic device. In the case of a tie, the motion in question fails. In the Senate, the Vice President may (if present) cast the tiebreaking vote.</p>
+            
           </div>
          
          
@@ -76,29 +79,34 @@
             </table>
 
               
-    </div>
+           </div>
   </div>
 
-  <div class="row">
+<div class="row">
 
-    <div class="col-lg-6 col-md-6 col-sm-6 col-6"> 
-                      
-      <h2>Least Engaged (Bottom 10% Attendance)</h2>
-      <table class="table table-bordered table-striped" id="leastEngaged" >
-      </table>
-      
-  
-  </div>
-  
-  
   <div class="col-lg-6 col-md-6 col-sm-6 col-6"> 
-                      
-      <h2>Most Engaged (Top 10% Attendance)</h2>
-      <table class="table table-bordered table-striped" id="mostEngaged" >
-  
-      </table>
-  
-  </div>
+                    
+      <h2>Least Loyal (Bottom 10% of Party)</h2>
+      <table class="table table-bordered table-striped" id="leastLoyal" ></table>
+    
+
+   </div>
+
+
+   <div class="col-lg-6 col-md-6 col-sm-6 col-6"> 
+                    
+      <h2>Most Loyal (Top 10% of Party)</h2>
+      <table class="table table-bordered table-striped" id="mostLoyal" >  
+          </table>
+
+
+    </table>
+
+    </div>
+
+
+</div>
+
 
 
       
@@ -118,9 +126,9 @@
       <script src="house_statistics.js"></script>
 
       <script>
-      dibujarTablaMostEngaged.innerHTML = tablaMostEngaged;
-      dibujarTablaLeastEngaged.innerHTML = tablaLeastEngaged;
-      </script>
+      dibujarTabla_MostLoyal.innerHTML = tablaMostLoyal;
+       dibujarTabla_LeastLoyal.innerHTML = tablaLeastLoyal;
+        </script>
       
 
 

@@ -4864,6 +4864,20 @@ var statistics = {
    
         "NoOfRepsTotal":0,
         "votedWithPartyTotal": 0,
+
+        "leastEngagedNames": 0,
+        "leastEngagedNumberMissedVotes": 0,
+        "least engagedPercentageMissedVotes": 0,
+        "mostEngagedNames": 0,
+        "mostEngagedNumberMissedVotes": 0,
+        "mostEngagedPercentageMissedVotes": 0,
+        "leastLoyalNames": 0,
+        "leastLoyalNumberVotes": 0,
+        "leastLoyalPercentageVotes": 0,
+        "mostLoyalNames": 0,
+        "mostLoyalNumberVotes": 0,
+        "mostLoyalPercentageVotes": 0,
+
         
     }
 
@@ -4931,6 +4945,12 @@ function average(arrayMiembros, letra) { // Promedio raro
 }
 
 
+//--------//
+
+
+// DIBUJA LA TABLA GLANCE 
+
+
 function dibujarGlance (){
 
 tablaGlance += "<tr><td>Democrats</td>"
@@ -4957,65 +4977,161 @@ dibujarTablaGlance.innerHTML = tablaGlance;
 
 
 
-// Tabla dos
+
+
+//Función para averiguar los más y menos comprometidos y leales
+//Primero declaro un par de variables necesarias
+let arrayAuxiliarEngaged = arrayMiembros;
+let mostEngaged = [];
+let leastEngaged = [];
+let arrayAuxiliarLoyal = arrayMiembros;
+let mostLoyal = [];
+let leastLoyal = [];
+let PNecesario = (arrayMiembros.length * 0.1);
+
+//Con esta función itero el array y cargo un array nuevo con los valores, hasta que alcanza el total que se necesita (o más, si los valores son iguales en el límite de lo que se necesita). El parámetro que hay que pasar es el array que quiero llenar
+function engagedAndLoyal(array, arrayAuxiliar) {
+  while (array.length < PNecesario) {
+      for (let i = array.length; i < PNecesario || arrayAuxiliar[i - 1].missed_votes_pct == arrayAuxiliar[i].missed_votes_pct; i++) {
+          array.push(arrayAuxiliar[i]);
+      }
+  }
+
+}
+
+//Esta función ordena el array por porcentaje de votos perdidos, de mayor a menor
+function orderByMissedVotesPctMoreToLess(array) {
+  array.sort(function (a, b) {
+      return (b.missed_votes_pct - a.missed_votes_pct)
+  })
+}
+
+//Esta función ordena el array por porcentaje de votos perdidos, de menor a mayor
+function orderByMissedVotesPctLessToMore(array) {
+  array.sort(function (a, b) {
+      return (a.missed_votes_pct - b.missed_votes_pct)
+  })
+}
+
+//Esta función ordena el array por porcentaje de votos con el partido, de mayor a menor
+function orderByPartyVotesPctMoreToLess(array) {
+  array.sort(function (a, b) {
+      return (a.votes_with_party_pct - b.votes_with_party_pct)
+  })
+}
+
+//Esta función ordena el array por porcentaje de votos con el partido, de menor a mayor
+function orderByPartyVotesPctLessToMore(array) {
+  array.sort(function (a, b) {
+      return (b.votes_with_party_pct - a.votes_with_party_pct)
+  })
+}
+
+//Acá llamo a las funciones y creo y lleno los array que necesito
+
+orderByMissedVotesPctMoreToLess(arrayAuxiliarEngaged);
+engagedAndLoyal(leastEngaged, arrayAuxiliarEngaged);
+orderByMissedVotesPctLessToMore(arrayAuxiliarEngaged);
+engagedAndLoyal(mostEngaged, arrayAuxiliarEngaged);
+
+orderByPartyVotesPctMoreToLess(arrayAuxiliarLoyal);
+engagedAndLoyal(leastLoyal, arrayAuxiliarLoyal);
+orderByPartyVotesPctLessToMore(arrayAuxiliarLoyal);
+engagedAndLoyal(mostLoyal, arrayAuxiliarLoyal);
+
+// Tabla Least Engaged
 
 var tablaLeastEngaged = "<thead class='thead-dark'><tr><th class='text-center'>Name</th><th>Nro. Missed votes</th><th>% Missed</th></tr></thead>"
 
 var dibujarTablaLeastEngaged = document.getElementById("leastEngaged");
 
 
-function dibujarTablaLeast (){
-
-  tablaLeastEngaged += "<tr><td>Democrats</td>"
-  tablaLeastEngaged += "<td>" + "" + statistics.NoOfRepsD + "" + "</td>" 
-  tablaLeastEngaged += "<td>" + "" + statistics.democratsVotesAverage + "" + "%" +"</td></tr>"
-
-  tablaLeastEngaged += "<tr><td>Republicans</td>"
-  tablaLeastEngaged += "<td>" + "" + statistics.NoOfRepsR + "" + "</td>" 
-  tablaLeastEngaged +=  "<td>" + "" + statistics.republicansVotesAverage + "" + "%" +"</td></tr>"
-
-
-   tablaLeastEngaged += "<tr><td>Independents</td>"
-   tablaLeastEngaged += "<td>" + "" + statistics.NoOfRepsI + "" + "</td>" 
-   tablaLeastEngaged +=  "<td>" + "" + statistics.independentsVotesAverage + "" + "%" +"</td></tr>"
-
-
-   tablaLeastEngaged += "<tr><td>Total</td>"
-   tablaLeastEngaged += "<td>" + "" + statistics.NoOfRepsTotal + "" + "</td>" 
-  tablaLeastEngaged +=  "<td>" + ""  + statistics.votedWithPartyTotal + "" + "%" +"</td></tr>"
+function dibujarTablaLeast (array){
+  for (let i = 0; i < array.length; i++) {
+    tablaLeastEngaged += "<tr>"
+      
+      if (array[i].last_name != null && array[i].first_name != null && array[i].middle_name != null) {
+        tablaLeastEngaged += "<td><a href='" + array[i].url + "'>" + array[i].last_name + " " + array[i].first_name + " " + array[i].middle_name + "</a></td>"
+      } else if (array[i].middle_name == null) {
+        tablaLeastEngaged += "<td><a href='" + array[i].url + "'>" + array[i].last_name + " " + array[i].first_name + " " + "</a></td>"
+      }
+      tablaLeastEngaged += "<td class='text-center'>" + " " + array[i].missed_votes + " " + "</td>"
+      tablaLeastEngaged += "<td class='text-center'>" + " " + array[i].missed_votes_pct + "%" + " " + "</td></tr>"
+  }
 }
 
+dibujarTablaLeast(leastEngaged);
+// dibujarTablaLeastEngaged.innerHTML = tablaLeastEngaged;
 
-dibujarTablaLeast();
-dibujarTablaLeastEngaged.innerHTML = tablaLeastEngaged;
-
-// Tabla tres
+// Tabla Most
 
 var tablaMostEngaged = "<thead class='thead-dark'><tr><th class='text-center'>Name</th><th>Nro. Missed votes</th><th>% Missed</th></tr></thead>"
 
 var dibujarTablaMostEngaged = document.getElementById("mostEngaged");
 
 
-function dibujarTablaMost (){
+function dibujarTablaMost (array){
 
-  tablaMostEngaged += "<tr><td>ACA IRIA EL NOMBRE</td>"
-  tablaMostEngaged += "<td>" + "" + statistics.NoOfRepsD + "" + "</td>" 
-  tablaMostEngaged += "<td>" + "" + statistics.democratsVotesAverage + "" + "%" +"</td></tr>"
-
-  tablaMostEngaged += "<tr><td>CON UN CICLO FOR?</td>"
-  tablaMostEngaged += "<td>" + "" + statistics.NoOfRepsR + "" + "</td>" 
-  tablaMostEngaged +=  "<td>" + "" + statistics.republicansVotesAverage + "" + "%" +"</td></tr>"
-
-
-  tablaMostEngaged += "<tr><td>Independents</td>"
-  tablaMostEngaged += "<td>" + "" + statistics.NoOfRepsI + "" + "</td>" 
-  tablaMostEngaged +=  "<td>" + "" + statistics.independentsVotesAverage + "" + "%" +"</td></tr>"
-
-
-  tablaMostEngaged += "<tr><td>Total</td>"
-  tablaMostEngaged += "<td>" + "" + statistics.NoOfRepsTotal + "" + "</td>" 
-  tablaMostEngaged +=  "<td>" + ""  + statistics.votedWithPartyTotal + "" + "%" +"</td></tr>"
+  for (let i = 0; i < array.length; i++) {
+    tablaMostEngaged += "<tr>"
+  
+    if (array[i].last_name != null && array[i].first_name != null && array[i].middle_name != null) {
+      tablaMostEngaged += "<td><a href='" + array[i].url + "'>" + array[i].last_name + " " + array[i].first_name + " " + array[i].middle_name + "</a></td>"
+    } else if (array[i].middle_name == null) {
+      tablaMostEngaged += "<td><a href='" + array[i].url + "'>" + array[i].last_name + " " + array[i].first_name + " " + "</a></td>"
+    }
+    tablaMostEngaged += "<td class='text-center'>" + " " + array[i].missed_votes + " " + "</td>"
+    tablaMostEngaged += "<td class='text-center'>" + " " + array[i].missed_votes_pct + "%" + " " + "</td></tr>"
+}
 }
 
-dibujarTablaMost();
-dibujarTablaMostEngaged.innerHTML = tablaMostEngaged;
+dibujarTablaMost(mostEngaged);
+//dibujarTablaMostEngaged.innerHTML = tablaMostEngaged;
+
+
+// LOYAL TABLES
+
+// MOST LOYAL TABLE
+
+var tablaMostLoyal = "<thead class='thead-dark'><tr><th class='text-center'>Name</th><th>Nro. Missed votes</th><th>% Missed</th></tr></thead>"
+
+var dibujarTabla_MostLoyal = document.getElementById("mostLoyal");
+
+function dibujarTablaMostLoyal(array) {
+  for (let i = 0; i < array.length; i++) {
+    tablaMostLoyal += "<tr>"
+      if (array[i].last_name != null && array[i].first_name != null && array[i].middle_name != null) {
+        tablaMostLoyal += "<td><a href='" + array[i].url + "'>" + array[i].last_name + " " + array[i].first_name + " " + array[i].middle_name + "</a></td>"
+      } else if (array[i].middle_name == null) {
+        tablaMostLoyal += "<td><a href='" + array[i].url + "'>" + array[i].last_name + " " + array[i].first_name + " " + "</a></td>"
+      }
+      tablaMostLoyal += "<td class='text-center'>" + " " + array[i].total_votes + " " + "</td>"
+      tablaMostLoyal += "<td class='text-center'>" + " " + array[i].votes_with_party_pct + "%" + " " + "</td></tr>"
+  }
+}
+
+dibujarTablaMostLoyal(mostLoyal);
+// dibujarTabla_MostLoyal.innerHTML = tablaMostLoyal;
+
+// LEAST LOYAL TABLE
+
+var tablaLeastLoyal = "<thead class='thead-dark'><tr><th class='text-center'>Name</th><th>Nro. Missed votes</th><th>% Missed</th></tr></thead>"
+
+var dibujarTabla_LeastLoyal = document.getElementById("leastLoyal");
+
+function dibujarTablaLeastLoyal(array) {
+  for (let i = 0; i < array.length; i++) {
+    tablaLeastLoyal += "<tr>"
+     
+      if (array[i].last_name != null && array[i].first_name != null && array[i].middle_name != null) {
+        tablaLeastLoyal += "<td><a href='" + array[i].url + "'>" + array[i].last_name + " " + array[i].first_name + " " + array[i].middle_name + "</a></td>"
+      } else if (array[i].middle_name == null) {
+        tablaLeastLoyal += "<td><a href='" + array[i].url + "'>" + array[i].last_name + " " + array[i].first_name + " " + "</a></td>"
+      }
+      tablaLeastLoyal += "<td class='text-center'>" + " " + array[i].total_votes + " " + "</td>"
+      tablaLeastLoyal += "<td class='text-center'>" + " " + array[i].votes_with_party_pct + "%" + " " + "</td></tr>"
+  }
+}
+
+dibujarTablaLeastLoyal(leastLoyal);
+//dibujarTabla_LeastLoyal.innerHTML = tablaLeastLoyal;

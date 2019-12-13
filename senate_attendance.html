@@ -6,7 +6,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-  
+    
+    <title>Senate Attendance</title>
   </head>
   
   <body>
@@ -40,7 +41,7 @@
               <span class="caret"></span></a>
             <ul class="dropdown-menu">
               <li><a href="senate_attendance.html">Senate</a></li>
-              <li><a href="house-data.html">House</a></li>
+              <li><a href="house_attendance.html">House</a></li>
             </ul>
           </li>
           <li class="dropdown">
@@ -48,7 +49,7 @@
               <span class="caret"></span></a>
             <ul class="dropdown-menu">
               <li><a href="senate_party_loyalty.html">Senate</a></li>
-              <li><a href="house-data.html">House</a></li>
+              <li><a href="house_party_loyalty.html">House</a></li>
             </ul>
           </li>
         </ul>
@@ -75,10 +76,10 @@
             </table>
 
               
-    </div>
+           </div>
   </div>
 
-  <div class="row">
+<div class="row">
 
   <div class="col-lg-6 col-md-6 col-sm-6 col-6"> 
                     
@@ -87,17 +88,17 @@
     </table>
     
 
-</div>
+   </div>
 
 
-<div class="col-lg-6 col-md-6 col-sm-6 col-6"> 
+   <div class="col-lg-6 col-md-6 col-sm-6 col-6"> 
                     
     <h2>Most Engaged (Top 10% Attendance)</h2>
     <table class="table table-bordered table-striped" id="mostEngaged" >
 
     </table>
 
-</div>
+    </div>
 
 
 </div>
@@ -119,6 +120,12 @@
       <!-- JavaScript -->
       <!--<script src="pro-congress-113-senate.js"></script>-->
       <script src="senate_statistics.js"></script>
+
+      <script>
+      
+        dibujarTablaLeastEngaged.innerHTML = tablaLeastEngaged;
+        dibujarTablaMostEngaged.innerHTML = tablaMostEngaged;
+      </script>
       
 
 
